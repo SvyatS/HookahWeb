@@ -1,0 +1,155 @@
+body{
+    background-color: #E1E1E1;
+    font-family: "Roboto Regular";
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.header{
+    height: 70px;
+    background-color: #0379E5;
+    width: 100vw;
+    display: flex;
+    font-family: "Roboto Regular";
+    font-size: 28px;
+    align-items: center;
+    color: white;
+}
+
+.logo{
+    padding-left: 30px;
+}
+
+.user{
+    margin-left: 80%;
+    font-size: 24px;
+}
+
+.logout{
+    margin-left: 20px;
+    font-size: 21px;
+}
+
+.container{
+    padding-bottom: 100px;
+}
+
+.category__title{
+    font-size: 24px;
+    font-family: "Roboto Regular";
+    border-bottom: 1px solid black;
+    width: 60vw;
+    text-align: center;
+}
+
+.places__block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5vh;
+}
+
+.canvas__block{
+    background-color: #C4C4C4;
+    width: 50vw;
+    height: 23vw;
+    border-radius: 15px;
+    margin-top: 30px;
+}
+
+.canvas__description{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50vw;
+    padding: 15px;
+}
+
+.description__color{
+    width: 2vw;
+    height: 1.4vw;
+    border-radius: 4px;
+}
+
+.descripton__place{
+    margin-left: 10px;
+}
+
+.row{
+    display: flex;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.white{
+    background-color: #eeeeee;
+}
+
+
+.black{
+    background-color: black;
+}
+
+.reserve__block{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5vh;
+}
+
+.reserve__block form{
+    padding-top: 25px;
+}
+
+.form__row{
+    display: flex;
+    justify-content: flex-end;
+    padding: 3px 0;
+}
+
+.form__row input{
+    background-color: #C4C4C4;
+    border-radius: 4px;
+    border: none;
+}
+
+.form-btn__block{
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.form-btn__block button{
+    background-color: #C4C4C4;
+    border: none;
+    border-radius: 4px;
+    padding: 2px 20px;
+}
+
+.review__block{
+    padding: 30px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.reviews{
+    width: 40vw;
+    margin-top: 40px;
+}
+
+.review{
+    width: 100%;
+    background-color: #C4C4C4;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+.review > .name{
+    float:right;
+}

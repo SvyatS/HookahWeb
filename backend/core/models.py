@@ -23,8 +23,10 @@ class Table(models.Model):
         ("Занят", "reserve"),
     ]
 
-    number = models.CharField(max_length = 16)
+    max_people = models.IntegerField("Количество человек", default = 4)
     status = models.CharField(max_length = 32, choices = _status_choices, default = "Свободен")
+    x_pos = models.IntegerField("X", default = 100)
+    y_pos = models.IntegerField("Y", default = 100)
 
 
 class Reserve(models.Model):

@@ -1,17 +1,16 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <title>Main</title>
 
+        <link rel="stylesheet" type="text/css" href="{% static 'plugins/slick/slick.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'plugins/slick/slick-theme.css' %}"/>
 
-        
-        <link rel="stylesheet" type="text/css" href="../plugins/slick/slick.css"/>
-        <link rel="stylesheet" type="text/css" href="../plugins/slick/slick-theme.css"/>
-
-        <link rel="stylesheet" href="../css/reset.css">
-        <link rel="stylesheet" href="../css/fonts.css">
-        <link rel="stylesheet" href="../css/index.css">
+        <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+        <link rel="stylesheet" href="{% static 'css/index.css' %}">
     </head>
     <body>
         <div class="header">
@@ -55,29 +54,19 @@
             <div class="review__block">
                 <div class="category__title">Reviews</div>
                 <div class="reviews">
-                    <div class="review">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit, fugit.</div>
-                        <div class="name">Lorem, ipsum.</div>
-                    </div>
-                    <div class="review">
-                        <div class="text">Lorem, ipsum dolor..</div>
-                        <div class="name">Lorem, ipsum.</div>
-                    </div>
-                    <div class="review">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur adipisicing.</div>
-                        <div class="name">Lorem, ipsum.</div>
-                    </div>
-                    <div class="review">
-                        <div class="text">Lorem ipsum dolor sit amet consectetur.</div>
-                        <div class="name">Lorem, ipsum.</div>
-                    </div>
+                    {% for review in reviews %}
+                        <div class="review">
+                            <div class="text">{{ review.text }}</div>
+                            <div class="name">{{ review.user }}</div>
+                        </div>
+                    {% endfor %}
                 </div> 
             </div>
         </div>
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <script type="text/javascript" src="../plugins/slick/slick.min.js"></script>
+        <script type="text/javascript" src="{% static 'plugins/slick/slick.min.js' %}"></script>
       
         <script type="text/javascript">
           $(document).ready(function(){
