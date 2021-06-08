@@ -1,5 +1,5 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html>
     <head>
         <meta charset="utf-8" />
@@ -7,6 +7,8 @@
 
         <link rel="stylesheet" type="text/css" href="{% static 'plugins/slick/slick.css' %}"/>
         <link rel="stylesheet" type="text/css" href="{% static 'plugins/slick/slick-theme.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'plugins/datetimepicker/jquery.datetimepicker.css' %}"/>
+
 
         <link rel="stylesheet" href="{% static 'css/reset.css' %}">
         <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
@@ -15,7 +17,7 @@
     <body>
         <div class="header">
             <div class="logo">Logo</div>
-            <div class="user">Username</div>
+            <div class="user">Admin</div>
             <div class="logout">
                 <a href="#">Logout</a>
             </div>
@@ -23,7 +25,9 @@
         <div class="container">
             <div class="places__block">
                 <div class="category__title">Free places</div>
-                <div class="canvas__block"></div>
+                <div class="canvas__block">
+                    <canvas id="canvas_table"></canvas>
+                </div>
                 <div class="canvas__description">
                     <div class="row">
                         <div class="description__color black"></div>
@@ -37,19 +41,35 @@
             </div>
             <div class="reserve__block">
                 <div class="category__title">Reserve a place</div>
-                <form action="#">
+                <form action="{% url 'reserve' %}" method="post">
+                    {% csrf_token %}
                     <div class="form__row">
                         <label for="table_num">Table number:</label>
-                        <input type="number" name="table_num">
+                        <input type="number" name="table_num" id="table_num">
                     </div>
                     <div class="form__row">
                         <label for="people_num">Number of people:</label>
-                        <input type="number" name="people_num">
+                        <input type="number" name="people_num" id="people_num">
+                    </div>
+                    <div class="form__row">
+                        <input type="text" name="time" id="time">
                     </div>
                     <div class="form-btn__block">
                         <button type="submit">Apply</button>
                     </div>
                 </form>
+            </div>
+            <div class="products__block">
+                <div class="category__title">products</div>
+                <div class="products">
+                    {% for product in products %}
+                        <div class="product__card">
+                            <div class="product__photo"><img src="{{ product.photo.url }}" alt="product" width="15vw"></div>
+                            <div class="product__name"><p>{{ product.name }}</p></div>
+                            <div class="product__price"><p>{{ product.price }}р</p></div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             <div class="review__block">
                 <div class="category__title">Reviews</div>
@@ -66,12 +86,60 @@
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<!--        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
+        <script type="text/javascript" src="{% static 'plugins/datetimepicker/build/jquery.datetimepicker.full.js' %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script type="text/javascript" src="{% static 'plugins/slick/slick.min.js' %}"></script>
       
         <script type="text/javascript">
           $(document).ready(function(){
             $('.reviews').slick();
           });
+
+          var canvas = document.getElementById('canvas_table');
+          var ctx = canvas.getContext('2d');
+
+          let canvas_block_width = $(".canvas__block").width() - 8;
+          let canvas_block_height = $(".canvas__block").height() - 8;
+
+          canvas.width  = canvas_block_width;
+          canvas.height = canvas_block_height;
+
+          async function getTables() {
+              try {
+                  const response = await axios.get("{% url 'api_tables' %}");
+                  canvas.width  = canvas_block_width;
+                  canvas.height = canvas_block_height;
+
+                  for(let i in response.data){
+                      let table_x = response.data[i].x_pos * canvas_block_width / 1000;
+                      let table_y = response.data[i].y_pos * canvas_block_height / 470;
+                      if(response.data[i].status == "Свободен"){
+                          ctx.fillStyle = "white";
+                      }else{
+                          ctx.fillStyle = "black";
+                      }
+                      ctx.fillRect(table_x, table_y, 50, 50);
+
+                      ctx.fillStyle = 'black';
+                      ctx.font = '30pt Calibri';
+                      ctx.fillText(response.data[i].id, table_x+12, table_y+40);
+
+
+                  }
+
+              } catch (error) {
+                  console.error(error);
+              }
+          }
+
+          let myGreeting = setInterval(getTables, 3000);
+
+          $('#time').datetimepicker({
+            inline: true
+          });
+
+
         </script>
     </body>
 </html>

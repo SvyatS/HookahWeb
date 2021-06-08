@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class ExtendedUser(models.Model):
@@ -25,17 +26,23 @@ class Table(models.Model):
 
     max_people = models.IntegerField("Количество человек", default = 4)
     status = models.CharField(max_length = 32, choices = _status_choices, default = "Свободен")
-    x_pos = models.IntegerField("X", default = 100)
-    y_pos = models.IntegerField("Y", default = 100)
+    x_pos = models.IntegerField("X", default = 100, validators=[
+            MaxValueValidator(1000),
+            MinValueValidator(1)
+        ])
+    y_pos = models.IntegerField("Y", default = 100, validators=[
+            MaxValueValidator(470),
+            MinValueValidator(1)
+        ])
 
 
 class Reserve(models.Model):
     """Бронирование столиков"""
 
-    number_of_users = models.CharField(max_length = 16)
+    number_of_users = models.IntegerField("Количество человек")
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
-    order_user = models.ForeignKey(User, on_delete=models.CASCADE, null = True)
-    start_date = models.DateTimeField("Время брони")
+    order_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    date = models.DateTimeField("Забронированное время")
 
 
 class Review(models.Model):
@@ -44,3 +51,11 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField("Отзыв")
     date = models.DateField("Дата создания", auto_now_add = True)
+
+
+class Product(models.Model):
+    """Модель товаров"""
+
+    name = models.CharField("Имя товара", max_length=64)
+    price = models.IntegerField("Цена товара")
+    photo = models.FileField("Фото товара", upload_to="media/")
